@@ -170,16 +170,6 @@ function migrateLegacy(map){
  legacyReview=[];
  saveMissed();saveSeen();
 }
-function exportReview(){
- const pending=reviewCandidates().map(reviewKey);
- const shown=reviewCandidates(seen).map(reviewKey);
- if(!pending.length&&!shown.length)return;
- const blob=new Blob([JSON.stringify({format:"commander-combo-quiz-review",version:2,questions:pending,seen:shown},null,2)],{type:"application/json"});
- const url=URL.createObjectURL(blob);
- const link=document.createElement("a");link.href=url;link.download="commander-combo-quiz-review.json";link.click();
- setTimeout(()=>URL.revokeObjectURL(url),30000);
- $("review-status").textContent="復習リストと出題履歴を保存しました。";
-}
 function readReview(text){
  const data=JSON.parse(text);
  const valid=rows=>Array.isArray(rows)&&rows.length<=50000&&rows.every(x=>typeof x==="string"&&x.length<=1000);
@@ -220,7 +210,6 @@ function syncReview(){
  const n=reviewCandidates().filter(q=>q.startConditions).length;
  $("review-start").textContent="復習する（"+n.toLocaleString("ja-JP")+"問）";
  $("review-start").disabled=n===0;
- $("review-export").disabled=(n===0&&seen.size===0)||!expanded;
  $("review-import").disabled=!expanded;
  const paused=reviewCandidates().length-n;
  $("review-note").textContent=(canStore?"間違えた問題を、色に関係なくこのブラウザで復習できます。":"ブラウザに保存できない場合は、このタブを閉じるまで復習できます。")+
@@ -438,7 +427,6 @@ for(const g of genres)$("genre-"+g).onclick=()=>pickGenre(g);
 paintColor();load();
 $("start").onclick=start;
 $("again").onclick=()=>{$("app").dataset.view="setup";$("finish").hidden=true;$("setup").hidden=false;syncCounts();};
-$("review-export").onclick=exportReview;
 $("review-import").onclick=()=>$("review-file").click();
 $("review-file").onchange=importReview;
 $("review-start").onclick=()=>startRound(reviewCandidates(),true);
