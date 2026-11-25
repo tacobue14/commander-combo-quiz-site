@@ -1,0 +1,32 @@
+/* Scryfall Bulk Data (2026-11-21) card image UUIDs. */
+const IMAGE_IDS={
+  "Skullclamp": "005dae9a-dddc-4a11-95bb-cce319edcce4",
+  "Heliod, Sun-Crowned": "01a8576e-cadc-4521-aadd-3a05f0bc4d20",
+  "Arcane Signet": "01b186af-8825-4257-80fd-9c1ecdb21414",
+  "Swiftfoot Boots": "01ba455b-9cd4-4ba2-9bbf-d83b84dcc891",
+  "Godo, Bandit Warlord": "01d566cf-cb32-461d-8afe-b0f3f4c24160",
+  "Blood Artist": "036f387a-8dee-482e-b3e3-cf79b54c61e1",
+  "Sol Ring": "04002706-2236-4b79-bdea-4f263e43cb9c",
+  "Phyrexian Altar": "043de2ce-9ee9-414f-9385-6e5260173988",
+  "Lightning Greaves": "047de2fe-6fc1-40c5-98d4-6203b4a83445",
+  "Shielded by Faith": "066ac822-7417-4dc4-93ba-bfba2252f47b",
+  "Glint-Horn Buccaneer": "0884ffe1-4f4c-40a4-88c2-d34a19d80dd9",
+  "Curiosity": "0ab3abab-70b9-4eec-be61-80f41d6a275b",
+  "Basalt Monolith": "0b0595fe-3042-4fcd-9f8e-a0f601f858c4",
+  "Walking Ballista": "0db963e2-38df-4036-a312-35854dc3521c",
+  "Ashnod's Altar": "0f2d0ee5-3173-4a03-be45-2fe9ea49cdc3",
+  "Altar of Dementia": "169356e0-46dc-4096-8e66-36726454f104",
+  "Chatterfang, Squirrel General": "1785cf85-1ac0-4246-9b89-1a8221a8e1b2",
+  "Goblin Bombardment": "179e954f-1d90-4ef4-b800-25845cc338e2",
+  "Helm of the Host": "1a0fd50b-ccde-4098-bd37-feb6038c53a7",
+  "Pitiless Plunderer": "1ac61e84-94d6-4ff7-a00f-29de93f09a38",
+  "Viscera Seer": "24277de8-7412-496c-bd44-61d9629a3473",
+  "Siona, Captain of the Pyleas": "2b1d890f-7ef8-47b9-9ec8-f3884a1d09db",
+  "Niv-Mizzet, Parun": "3035a97f-5104-4b56-84a4-5206e75607fc",
+  "Impact Tremors": "46db3811-db1d-4f69-8143-a93f64d0297b",
+  "Malcolm, Keen-Eyed Navigator": "51187cdb-85ee-4f68-9e29-d84d296f0825",
+  "Kinnan, Bonder Prodigy": "532746e2-f822-4920-ab31-94e0c8baaa84",
+  "Pemmin's Aura": "6431d71c-f76c-4b36-9e11-b492ec67a266",
+  "Freed from the Real": "93fc07f5-b2de-40f4-9103-a2dcde2bbfb0"
+};
+function imageUrl(name){const id=IMAGE_IDS[name];return id?`https://cards.scryfall.io/normal/front/${id[0]}/${id[1]}/${id}.jpg`:null;}

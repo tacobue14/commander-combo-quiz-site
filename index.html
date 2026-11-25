@@ -1,0 +1,8 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>統率者コンボ検定</title><link rel="stylesheet" href="./style.css"></head>
+<body><main id="app"><header><h1>統率者コンボ検定</h1><p>カード画像から、コンボの最後の1枚を当てよう</p></header>
+<section id="setup"><h2>クイズ設定</h2><div class="fields"><label>コンボ枚数<select id="size"><option value="all">すべて</option><option value="2">2枚</option><option value="3">3枚</option><option value="4">4枚</option></select></label><label>出題数<select id="count" aria-describedby="available"><option value="10">10問</option><option value="5">5問</option></select></label></div><p id="available" class="hint" aria-live="polite"></p><p class="hint">統率者が必須のコンボのみ。現在は検証済みの2～4枚コンボを収録。5枚コンボはデータ検証後に追加予定です。</p><button id="start">スタート</button><a href="./diagnostic.html">画像診断ページ</a></section>
+<section id="game" hidden><div class="stats"><span id="progress"></span><span id="score"></span></div><h2 id="question"></h2><p id="condition"></p><div id="known" class="card-grid"></div><div class="mark" aria-hidden="true">＋ ？</div><h3>不足しているカードを選択</h3><div id="choices" class="card-grid answers"></div><div id="feedback" hidden></div><button id="next" hidden>次の問題</button></section>
+<section id="finish" hidden><h2>結果</h2><p id="result"></p><button id="again">もう一度</button></section>
+<footer>カード情報・画像: Scryfall / コンボ確認: Commander Spellbook。非公式ファン制作。</footer></main><script src="./images.js" defer></script><script src="./quiz.js" defer></script></body></html>
