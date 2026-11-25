@@ -1,8 +1,40 @@
 <!doctype html>
 <html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>統率者コンボ検定</title><link rel="stylesheet" href="./style.css"></head>
-<body><main id="app"><header><h1>統率者コンボ検定</h1><p>カード画像から、コンボの最後の1枚を当てよう</p></header>
-<section id="setup"><h2>クイズ設定</h2><div class="fields"><label>コンボ枚数<select id="size"><option value="all">すべて</option><option value="2">2枚</option><option value="3">3枚</option><option value="4">4枚</option></select></label><label>出題数<select id="count" aria-describedby="available"><option value="10">10問</option><option value="5">5問</option></select></label></div><p id="available" class="hint" aria-live="polite"></p><p class="hint">統率者が必須のコンボのみ。現在は検証済みの2～4枚コンボを収録。5枚コンボはデータ検証後に追加予定です。</p><button id="start">スタート</button></section>
-<section id="game" hidden><div class="stats"><span id="progress"></span><span id="score"></span></div><h2 id="question"></h2><p id="condition"></p><div id="known" class="card-grid"></div><div class="mark" aria-hidden="true">＋ ？</div><h3>不足しているカードを選択</h3><div id="choices" class="card-grid answers"></div><div id="feedback" hidden></div><button id="next" hidden>次の問題</button></section>
-<section id="finish" hidden><h2>結果</h2><p id="result"></p><button id="again">もう一度</button></section>
-<footer>カード情報・画像: Scryfall / コンボ確認: Commander Spellbook。非公式ファン制作。</footer></main><script src="./images.js" defer></script><script src="./quiz.js" defer></script></body></html>
+<title>統率者コンボ検定</title><link rel="stylesheet" href="./style.css?v=beta-60282-v11"><meta name="quiz-release" content="beta-60282-v11"></head>
+<body><div class="land-backdrop" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div><main id="app"><header><p class="eyebrow">EDH / COMBO QUIZ / β版</p><h1>統率者コンボ検定</h1><p>カード画像と日本語の効果で、コンボの最後の1枚を当てよう。</p><p class="beta-notice">公開β版。一部の問題は個別の裁定や別解が未確認です。日本語の手順が未収録の問題には引用元リンクを用意しています。</p></header>
+<section id="setup"><h2>クイズ設定</h2>
+<fieldset class="mana-field" aria-describedby="colorHelp">
+<legend>出題する色</legend>
+<div class="mana-colors"><button type="button" id="pick-W" class="mana-pick mana-W" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v4m0 12v4M2 12h4m12 0h4M5 5l3 3m8 8 3 3M5 19l3-3m8-8 3-3"/></svg><span>白</span></button><button type="button" id="pick-U" class="mana-pick mana-U" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C9 7 5 11 5 15a7 7 0 0014 0c0-4-4-8-7-13Z"/><path d="M8 15c0 2 1 3 3 4"/></svg><span>青</span></button><button type="button" id="pick-B" class="mana-pick mana-B" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10a7 7 0 1 1 14 0c0 3-2 5-4 5v4H9v-4c-2 0-4-2-4-5Z"/><path d="M8 11h2m4 0h2m-4 5v3"/></svg><span>黒</span></button><button type="button" id="pick-R" class="mana-pick mana-R" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1 5 7 7 7 13a7 7 0 0 1-14 0c0-3 1-5 3-7 0 3 1 4 2 5 1-3 2-6 2-11Z"/></svg><span>赤</span></button><button type="button" id="pick-G" class="mana-pick mana-G" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-9m0 4C5 16 3 11 4 6c6 0 8 4 8 7m0 3c7 0 9-5 8-10-6 0-8 4-8 7"/></svg><span>緑</span></button></div>
+<div class="mana-other"><button type="button" id="pick-C" class="mana-pick mana-C" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 8 10-8 10-8-10Z"/><path d="m12 7 4 5-4 5-4-5Z"/></svg><span>無色</span></button><button type="button" id="pick-all" class="mana-pick mana-all" aria-pressed="true"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4" r="1.7"/><circle cx="20" cy="10" r="1.7"/><circle cx="17" cy="19" r="1.7"/><circle cx="7" cy="19" r="1.7"/><circle cx="4" cy="10" r="1.7"/></svg><span>全部混ぜる</span></button></div>
+</fieldset>
+<p id="colorHelp" class="hint">色を組み合わせて選択。青＋黒なら青黒ちょうどのコンボが出ます。</p>
+<p class="selected-pattern">選択中：<strong id="colorPattern">全部混ぜる</strong></p>
+<fieldset class="mana-field genre-field" aria-describedby="genreHelp"><legend>コンボの傾向</legend><div class="genre-choices">
+<button type="button" id="genre-all" aria-pressed="true">すべて</button><button type="button" id="genre-popular" aria-pressed="false">定番</button><button type="button" id="genre-rare" aria-pressed="false">マイナー</button>
+</div></fieldset>
+<p id="genreHelp" class="hint">EDHRECの掲載デッキ数を目安に、1,000件以上は定番、1,000件未満はマイナー。件数が不明な問題は「すべて」に含めます。</p>
+<p id="available" class="hint" aria-live="polite"></p><p id="progress-summary" class="hint"></p>
+<p class="hint">1回につき最大10問。日本語で前提条件を表示できる問題のうち、未出題を優先します。前提の日本語表示を準備中の問題は出題しません。</p>
+<div class="setup-actions"><button id="start" type="button" disabled>スタート</button><button id="review-start" class="secondary-action" type="button" disabled>復習する（0問）</button></div>
+<p id="review-note" class="hint review-note">間違えた問題を、色に関係なくこのブラウザで復習できます。</p>
+<details class="review-portability"><summary>復習リスト・出題履歴の引き継ぎ</summary><p class="hint">別のファイルや端末でも続けたい場合は、履歴を保存して、新しい版で読み込んでください。</p>
+<div class="setup-actions"><button id="review-export" class="secondary-action" type="button" disabled>履歴を保存</button><button id="review-import" class="secondary-action" type="button" disabled>履歴を読み込む</button></div>
+<input type="file" id="review-file" accept=".json,application/json" hidden><p id="review-status" role="status" class="hint"></p></details>
+<div class="tactic-launch"><h3>別モード：状況判断</h3><p class="hint">穴埋めとは別の各5問。盤面と手札を読んで、最適な一手を選びます。</p>
+<div class="setup-actions"><button type="button" id="tactic-stop" class="secondary-action">どこで止める？</button><button type="button" id="tactic-next" class="secondary-action">次の一手は？</button></div></div>
+</section>
+<section id="tactic-game" hidden>
+<div class="stats"><span id="tactic-kind"></span><span id="tactic-progress"></span><span id="tactic-score"></span></div>
+<h2 id="tactic-title"></h2><div class="tactic-scenario"><h3>盤面と手札</h3><p id="tactic-scene"></p>
+<p class="hint">問題文にない修整や妨害はないものとします。</p></div>
+<div id="tactic-cards" class="card-grid"></div><h3 id="tactic-question"></h3>
+<div id="tactic-options" class="tactic-options"></div>
+<div id="tactic-feedback" class="tactic-feedback" hidden></div>
+<div class="setup-actions tactic-bottom"><button id="tactic-advance" type="button" hidden>次の問題</button><button id="tactic-exit" type="button" class="secondary-action">モード選択へ</button></div>
+</section>
+<section id="tactic-result" hidden><h2>結果</h2><p id="tactic-final"></p><div class="setup-actions">
+<button id="tactic-retry" type="button">このモードをもう一度</button><button id="tactic-back" type="button" class="secondary-action">モード選択へ</button></div></section>
+<section id="game" hidden><div class="stats"><span id="progress"></span><span id="score"></span></div><h2 id="question"></h2><p id="condition"></p><div class="start-condition-panel"><h3>コンボの前提条件</h3><div id="start-conditions"></div></div><p id="draftNote" class="hint" hidden>試作問題：Commander Spellbookの登録例から出題しています。出典にない追加条件や別解は未確認です。</p><div id="known" class="card-grid"></div><div class="mark" aria-hidden="true">＋ ？</div><h3>不足しているカードを選択</h3><p class="hint">カードの日本語テキストを開いても回答にはなりません。</p><div id="choices" class="card-grid answers"></div><div id="feedback" hidden></div><button id="next" hidden>次の問題</button></section>
+<section id="finish" hidden><h2>結果</h2><p id="result"></p><div class="setup-actions"><button id="again" type="button">出題設定へ</button><button id="review-now" class="secondary-action" type="button" hidden>間違えた問題を復習</button></div></section>
+<footer>カード画像・カード情報：<a href="https://scryfall.com/" rel="noopener noreferrer">Scryfall</a>。コンボ参照：<a href="https://commanderspellbook.com/" rel="noopener noreferrer">Commander Spellbook</a>。<br>統率者コンボ検定 is unofficial Fan Content permitted under the <a href="https://company.wizards.com/en/legal/fancontentpolicy" rel="noopener noreferrer">Wizards Fan Content Policy</a>. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. © Wizards of the Coast LLC.</footer></main><script src="./images.js?v=beta-60282-v11" defer></script><script src="./quiz.js?v=beta-60282-v11" defer></script></body></html>
