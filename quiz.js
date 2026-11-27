@@ -90,7 +90,7 @@ function renderComboResults(q){
  const box=$("combo-results");box.replaceChildren();
  // Spellbook outcome strings can contain multiple outcomes separated by slash.
  // Keep each full statement intact rather than incorrectly breaking technical terms.
- const pieces=String(q.result??"").split(/\s*[／\\n]\s*/u).map(x=>x.trim()).filter(Boolean);
+ const pieces=String(q.result??"").split(/\s*(?:／|\n)\s*/u).map(x=>x.trim()).filter(Boolean);
  const outcomes=pieces.length?pieces:["結果の情報は未収録です。"];
  for(const outcome of outcomes){
   const item=document.createElement("li");
