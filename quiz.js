@@ -284,6 +284,8 @@ function lookupPrint(url){
   const d=await r.json();if(d.lang!=="ja")throw Error("No Japanese printing");
   const t=d.printed_text??d.card_faces?.map(f=>f.printed_text).filter(Boolean).join("\n\n");
   if(!t)throw Error("No Japanese rules text");
+  // Japanese-language Scryfall records can lack translated printed text. Never show English as Japanese.
+  if(!/[\u3040-\u30ff\u3400-\u9fff]/u.test(t))throw Error("Translated Japanese rules unavailable");
   return t.trim();
  });
  printTextCache.set(id,pending);
@@ -322,7 +324,7 @@ function card(name,onChoose){
    if(!detail.open||loading||ready)return;
    loading=true;rules.textContent="日本語の効果を読み込み中…";
    try{rules.textContent=await lookupPrint(data.ja);ready=true;}
-   catch{rules.textContent="日本語の効果を読み込めませんでした。画像かScryfallのカードページを確認してください。";}
+   catch{rules.textContent="このカードの日本語テキストは現在取得できません。日本語のカード画像を確認するか、Scryfallでカード情報を参照してください。";}
    finally{loading=false;}
   };
  }
