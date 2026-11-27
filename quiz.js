@@ -86,6 +86,18 @@ const CORE_START=[
 ];
 // Hand-written start states never use the hidden card's name or the answer source URL.
 function getStartConditions(q){return CORE_START[Number(q.id.slice(5))];}
+function renderComboResults(q){
+ const box=$("combo-results");box.replaceChildren();
+ // Spellbook outcome strings can contain multiple outcomes separated by slash.
+ // Keep each full statement intact rather than incorrectly breaking technical terms.
+ const pieces=String(q.result??"").split(/\s*[／\\n]\s*/u).map(x=>x.trim()).filter(Boolean);
+ const outcomes=pieces.length?pieces:["結果の情報は未収録です。"];
+ for(const outcome of outcomes){
+  const item=document.createElement("li");
+  item.textContent=outcome;
+  box.append(item);
+ }
+}
 function renderStartConditions(q){
  const box=$("start-conditions");box.replaceChildren();
  list(box,q.startConditions??[]);
@@ -337,7 +349,7 @@ function card(name,onChoose){
 function show(){
  locked=false;const q=deck[at];markSeen(q);$("progress").textContent=(playingReview?"復習 · ":"")+(at+1)+" / "+deck.length+"問";$("score").textContent="正解 "+score;
  $("question").textContent=colorName(q.color)+(q.draft?"・試作":"")+"：コンボを完成させよう";
- $("condition").textContent="このカードの組み合わせで狙う結果："+q.result+"。";
+ renderComboResults(q);
  renderStartConditions(q);
  $("draftNote").hidden=!q.draft;
  $("known").replaceChildren(...q.cards.filter(n=>n!==q.answer).map(n=>card(n,null)));
