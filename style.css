@@ -182,3 +182,10 @@ footer{
 .rules-audit-note h4,.rules-audit-note p{margin:.35rem 0}
 
 .beta-notice{max-width:52ch;color:#eaddba;line-height:1.55;font-size:.87rem}footer a{color:#f8dfa6}
+
+/* Present combo outcomes with the same clarity as prerequisite conditions. */
+.combo-result-panel{margin:0 0 1rem;padding:.75rem 1rem;border:1px solid #85785f;border-left:4px solid #d9be7e;border-radius:.55rem;background:#21231f}
+.combo-result-panel h3{margin:0 0 .4rem;font-size:1rem;color:#f8dda6}
+.combo-result-panel ul{margin:.1rem 0;padding-inline-start:1.25rem}
+.combo-result-panel li{line-height:1.65;overflow-wrap:anywhere}
+.combo-result-panel li+li{margin-top:.25rem}
